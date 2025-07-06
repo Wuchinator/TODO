@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Repository\UserRepository;
@@ -12,7 +13,9 @@ class AdminController extends AbstractController
     #[Route('/', name: 'admin_user_index')]
     public function index(UserRepository $userRepository): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_task_index');
+        }
 
         $users = $userRepository->findAll();
 
@@ -24,7 +27,9 @@ class AdminController extends AbstractController
     #[Route('/{id}', name: 'admin_user_show')]
     public function show(int $id, UserRepository $userRepository): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_task_index');
+        }
 
         $user = $userRepository->find($id);
 
