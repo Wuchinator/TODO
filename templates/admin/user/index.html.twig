@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Пользователи{% endblock %}
+
+{% block body %}
+<h1>Пользователи</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Никнейм</th>
+            <th>Роли</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.nickname }}</td>
+            <td>{{ user.roles|join(', ') }}</td>
+            <td><a href="{{ path('admin_user_show', {'id': user.id}) }}" class="btn btn-primary btn-sm">Посмотреть</a></td>
+        </tr>
+    {% else %}
+        <tr><td colspan="4">Пользователей нет</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Редактировать задачу{% endblock %}
+
+{% block body %}
+    <h1>Редактировать задачу</h1>
+
+    {{ form_start(form) }}
+        <div class="mb-3">
+            {{ form_label(form.title, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.title) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.description, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 4}}) }}
+            {{ form_errors(form.description) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.dueDate, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.dueDate, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.dueDate) }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">{{ button_label|default('Сохранить') }}</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('app_task_index') }}" class="btn btn-secondary mt-3">Назад к списку</a>
+{% endblock %}

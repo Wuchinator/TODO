@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Task index{% endblock %}
+
+{% block body %}
+<h1>Список задач</h1>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Описание</th>
+            <th>Статус</th>
+            <th>Дедлайн</th>
+            <th>Действия</th>
+            <th>Старт</th> {# новый столбец для кнопки Начать #}
+        </tr>
+    </thead>
+    <tbody>
+    {% for task in tasks %}
+        <tr>
+            <td>{{ task.title }}</td>
+            <td>{{ task.description }}</td>
+            <td>
+                {% set status = task.status %}
+                <span 
+                    class="
+                        {% if status == 'Ожидает' %}
+                            badge bg-warning text-dark
+                        {% elseif status == 'В процессе' %}
+                            badge bg-secondary
+                        {% elseif status == 'Завершено' %}
+                            badge bg-success
+                        {% elseif status == 'Просрочен' %}
+                            badge bg-danger
+                        {% elseif status == 'Отменен' %}
+                            badge bg-dark
+                        {% else %}
+                            badge bg-info
+                        {% endif %}
+                    "
+                >
+                    {{ status }}
+                </span>
+            </td>
+            <td>{{ task.dueDate ? task.dueDate|date('Y-m-d H:i') : '' }}</td>
+            <td>
+                <a href="{{ path('app_task_show', {'id': task.id}) }}" class="btn btn-sm btn-primary">Показать</a>
+                <a href="{{ path('app_task_edit', {'id': task.id}) }}" class="btn btn-sm btn-warning">Редактировать</a>
+                <form method="post" action="{{ path('app_task_delete', {'id': task.id}) }}" style="display:inline-block;" onsubmit="return confirm('Вы уверены?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ task.id) }}">
+                    <button class="btn btn-sm btn-danger">Удалить</button>
+                </form>
+            </td>
+<td>
+    {% if task.status == 'Ожидает' %}
+        <form method="post" action="{{ path('app_task_start', {'id': task.id}) }}">
+            <input type="hidden" name="_token" value="{{ csrf_token('start' ~ task.id) }}">
+            <button type="submit" class="btn btn-sm btn-outline-primary">Начать</button>
+        </form>
+    {% elseif task.status == 'В процессе' %}
+        <div class="d-flex gap-1">
+            <form method="post" action="{{ path('app_task_complete', {'id': task.id}) }}">
+                <input type="hidden" name="_token" value="{{ csrf_token('complete' ~ task.id) }}">
+                <button type="submit" class="btn btn-sm btn-success">Завершить</button>
+            </form>
+            <form method="post" action="{{ path('app_task_cancel', {'id': task.id}) }}">
+                <input type="hidden" name="_token" value="{{ csrf_token('cancel' ~ task.id) }}">
+                <button type="submit" class="btn btn-sm btn-danger">Отменить</button>
+            </form>
+        </div>
+    {% endif %}
+</td>
+
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="6">Задач не найдено</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ path('app_task_new') }}" class="btn btn-success">Создать новую задачу</a>
+{% endblock %}

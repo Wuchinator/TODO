@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Создать задачу{% endblock %}
+
+{% block body %}
+<h1>Создать новую задачу</h1>
+
+{{ form_start(form) }}
+    <div class="mb-3">
+        {{ form_label(form.title) }}
+        {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.title) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.description) }}
+        {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.description) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.dueDate) }}
+        {{ form_widget(form.dueDate, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.dueDate) }}
+    </div>
+
+    <button class="btn btn-primary">Создать</button>
+{{ form_end(form) }}
+
+<a href="{{ path('app_task_index') }}" class="btn btn-secondary mt-3">Назад к списку задач</a>
+{% endblock %}

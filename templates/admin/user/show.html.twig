@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Пользователь {{ user.nickname }}{% endblock %}
+
+{% block body %}
+<h1>Пользователь {{ user.nickname }}</h1>
+
+<h2>Задачи</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Описание</th>
+            <th>Статус</th>
+            <th>Дедлайн</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for task in user.tasks %}
+        <tr>
+            <td>{{ task.title }}</td>
+            <td>{{ task.description }}</td>
+            <td>{{ task.status }}</td>
+            <td>{{ task.dueDate ? task.dueDate|date('Y-m-d H:i') : '' }}</td>
+        </tr>
+    {% else %}
+        <tr><td colspan="4">Задач нет</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ path('admin_user_index') }}" class="btn btn-secondary">Назад к списку</a>
+{% endblock %}
