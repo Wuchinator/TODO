@@ -19,12 +19,6 @@ class TaskType extends AbstractType
             ->add('description')
             ->add('dueDate', DateTimeType::class, [
             'widget' => 'single_text',
-            'constraints' => [
-                new GreaterThanOrEqual([
-                    'value' => 'now',
-                    'message' => 'Дата дедлайна должна быть в будущем времени.'
-                ])
-            ],
         ]);
     }
 

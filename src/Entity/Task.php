@@ -5,8 +5,12 @@ namespace App\Entity;
 use App\Repository\TaskRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
+#[Gedmo\SoftDeleteable(fieldName: 'deletedAt')]
 class Task
 {
     #[ORM\Id]
@@ -24,11 +28,23 @@ class Task
     private ?string $status = null;
 
     #[ORM\Column]
+    #[Assert\GreaterThan('today', message: 'Дата дедлайна должна быть в будущем времени')]
     private ?\DateTime $dueDate = null;
 
     #[ORM\ManyToOne(inversedBy: 'tasks')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user_id = null;
+
+    #[ORM\Column(name: "deletedAt", type: 'datetime', nullable: true)]
+    private ?\DateTime $deletedAt = null;
+
+    public function getDeletedAt(): ?\DateTime {
+        return $this->deletedAt;
+    }
+    public function setDeletedAt(?\DateTime $deletedAt): static {
+        $this->deletedAt = $deletedAt;
+        return $this;
+    }
 
     public function getId(): ?int
     {

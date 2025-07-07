@@ -13,7 +13,7 @@
             <th>Статус</th>
             <th>Дедлайн</th>
             <th>Действия</th>
-            <th>Старт</th> {# новый столбец для кнопки Начать #}
+            <th>Старт</th>
         </tr>
     </thead>
     <tbody>
@@ -23,7 +23,7 @@
             <td>{{ task.description }}</td>
             <td>
                 {% set status = task.status %}
-                <span 
+                <span
                     class="
                         {% if status == 'Ожидает' %}
                             badge bg-warning text-dark

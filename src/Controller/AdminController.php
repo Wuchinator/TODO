@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace App\Controller;
 
 use App\Repository\UserRepository;
@@ -34,7 +34,7 @@ class AdminController extends AbstractController
         $user = $userRepository->find($id);
 
         if (!$user) {
-            throw $this->createNotFoundException('Пользователь не найден');
+            return  $this->render('admin/user/userNotFound.html.twig');
         }
 
         return $this->render('admin/user/show.html.twig', [

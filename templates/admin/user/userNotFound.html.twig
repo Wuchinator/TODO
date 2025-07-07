@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Пользователь не найден{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-center align-items-center" style="min-height: 60vh;">
+        <div class="text-center">
+            <h2 class="mb-4 text">Пользователь не найден</h2>
+            <a class="btn btn-danger" href="{{ path('admin_user_index') }}">Вернуться</a>
+        </div>
+    </div>
+{% endblock %}

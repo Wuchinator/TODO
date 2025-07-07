@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\User;
@@ -41,8 +41,10 @@ class RegistrationController extends AbstractController
             );
         }
 
+
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form,
         ]);
+
     }
 }

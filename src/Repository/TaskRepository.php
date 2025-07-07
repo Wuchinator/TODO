@@ -15,7 +15,6 @@ class TaskRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Task::class);
     }
-    // src/Repository/TaskRepository.php
 
     public function findByUser($user): array
     {
@@ -26,5 +25,4 @@ class TaskRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
 }

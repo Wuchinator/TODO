@@ -11,7 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Form\Extension\Core\Type\TextType; 
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class RegistrationFormType extends AbstractType
 {
@@ -24,10 +24,9 @@ class RegistrationFormType extends AbstractType
             ->add('plainPassword', PasswordType::class, [
                 'label' => 'Пароль',
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],  // ✨ уберите дублирующую строку ниже
                 'constraints' => [
-                    new NotBlank(['message' => 'Please enter a password']),
-                    new Length(['min' => 6, 'minMessage' => 'Your password should be at least {{ limit }} characters']),
+                    new NotBlank(['message' => 'Введите пароль']),
+                    new Length(['min' => 6, 'minMessage' => 'Пароль должен содержать минимум {{ limit }} символом']),
                 ],
             ]);
     }

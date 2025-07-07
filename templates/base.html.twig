@@ -18,7 +18,7 @@
 
 
         {% if app.user %}
-            <span class="navbar-text text-white me-3">Привет, {{ app.user.nickname }}!</span>
+            <span class="navbar-text text-white me-3">{{ app.user.nickname }}</span>
             <a class="btn btn-outline-light" href="{{ path('app_logout') }}">Выход</a>
         {% else %}
             <a class="btn btn-outline-light me-2" href="{{ path('app_login') }}">Вход</a>

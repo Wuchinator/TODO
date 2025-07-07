@@ -1,4 +1,0 @@
-<form method="post" action="{{ path('app_task_delete', {'id': task.id}) }}" style="display:inline;" onsubmit="return confirm('Удалить задачу?');">
-    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ task.id) }}">
-    <button class="btn btn-sm btn-outline-danger">🗑 Удалить</button>
-</form>

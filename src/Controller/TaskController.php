@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Task;
@@ -44,6 +46,7 @@ final class TaskController extends AbstractController
         }
 
         $task = new Task();
+        /** @var \App\Entity\User $user */
         $task->setUserId($user);
         $task->setStatus('Ожидает');
 

@@ -9,11 +9,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_NICKNAME', fields: ['nickname'])]
-#[UniqueEntity(fields: ['nickname'], message: 'Такой никнейм уже занят.')]
+#[UniqueEntity(fields: ['nickname'], message: 'Такой ник уже занят')]
+#[Gedmo\SoftDeleteable(fieldName: 'deletedAt')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -39,8 +41,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Task>
      */
-    #[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'user_id')]
+    #[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'userId')]
     private Collection $tasks;
+
+    #[ORM\Column(name: "deletedAt", type: 'datetime', nullable: true)]
+    private ?\DateTime $deletedAt = null;
+
+    public function getDeletedAt(): ?\DateTime {
+        return $this->deletedAt;
+    }
+    public function setDeletedAt(?\DateTime $deletedAt): static {
+        $this->deletedAt = $deletedAt;
+        return $this;
+    }
 
     public function __construct()
     {
@@ -134,27 +147,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getTasks(): Collection
     {
         return $this->tasks;
-    }
-
-    public function addTask(Task $task): static
-    {
-        if (!$this->tasks->contains($task)) {
-            $this->tasks->add($task);
-            $task->setUserId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTask(Task $task): static
-    {
-        if ($this->tasks->removeElement($task)) {
-            // set the owning side to null (unless already changed)
-            if ($task->getUserId() === $this) {
-                $task->setUserId(null);
-            }
-        }
-
-        return $this;
     }
 }
